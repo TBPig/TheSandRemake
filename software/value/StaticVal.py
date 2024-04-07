@@ -5,3 +5,10 @@ class Color:
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 255)
     GREY = (128, 128, 128)
+
+
+class Land:
+    MOUNTAIN = 0
+    PLAIN = 1
+    HOME = 2
+    BOSS = 3

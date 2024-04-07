@@ -11,6 +11,7 @@ class Main:
     SCREEN = pg.display.set_mode(SCREEN_MODE)
     FPS = 30
     CLOCK = pg.time.Clock()
+
     def __init__(self):
         pg.init()
         Main.SCREEN.fill(Main.SCREEN_COLOR)

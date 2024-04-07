@@ -1,5 +1,5 @@
 import pygame as pg
-from software.value.Color import Color
+from software.value.StaticVal import Color
 
 
 def get_center_rect(rect1: pg.Rect, rect2: pg.Rect):
