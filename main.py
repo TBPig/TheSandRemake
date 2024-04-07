@@ -1,41 +1,52 @@
 import pygame as pg
 import sys
+import logging
 from software.component.BigMap import BigMap
 from software.component.StartPage import StartPage
+from software.value.StaticVal import *
 
 
 class Main:
-    SCREEN_MODE = (1200, 600)
-    SCREEN_COLOR = (192, 212, 32)
-    SCREEN_TITTLE = "The Sand"
-    SCREEN = pg.display.set_mode(SCREEN_MODE)
-    FPS = 30
     CLOCK = pg.time.Clock()
 
     def __init__(self):
         pg.init()
-        Main.SCREEN.fill(Main.SCREEN_COLOR)
-        pg.display.set_caption(Main.SCREEN_TITTLE)
+        pg.display.set_caption(Screen.TITTLE)
         pg.display.set_icon(pg.image.load("the_sand.ico"))
 
         self.start_page = StartPage()
         self.big_map = BigMap()
-        self.focus_point = pg.Rect(0, 0, 0, 0)
+        self.show_UI = UI.START
+
+    def show(self):
+        Screen.SCREEN.fill(Screen.COLOR)
+        if self.show_UI == UI.START:
+            self.start_page.show(Screen.SCREEN)
+        elif self.show_UI == UI.BIG_MAP:
+            self.big_map.show(Screen.SCREEN)
+
+    def run_page(self):
+        if self.show_UI == UI.START:
+            self.start_page.run()
 
     def run(self):
         pg.mixer.music.load("Music/[沙中之火]生息.mp3")
         pg.mixer.music.play()
         while True:
-            self.start_page.show(Main.SCREEN)
+            self.run_page()
+            self.show()
             pg.display.flip()
-            self.disposal_event()
-            Main.CLOCK.tick(Main.FPS)
+            self.set_event()
+            Main.CLOCK.tick(Screen.FPS)
 
-    def disposal_event(self):
+    def set_event(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.save()
                 sys.exit()
+            elif event.type == Event.CHANGE_PAGE:
+                self.show_UI = event.new_UI
+                logging.info(f"显示界面变更为{event.new_UI}")
             self.start_page.set_event(event)
 
     def save(self):

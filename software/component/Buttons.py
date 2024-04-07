@@ -18,16 +18,16 @@ class Button:
         self.font = pg.font.Font(Button.FONT_PATH, text_size)
         self.text = self.font.render(text, True, self.text_color)
         self.text_rect = get_center_rect(self.rect, self.text.get_rect())
-        self.shadow = (64, 64, 64)
+        self.shadow = pg.transform.scale(pg.image.load("Pic/shadow_0.png"), self.rect.size)
         self.press_flag = False
         self.agree_flag = False
 
     def show(self, screen: pg.Surface):
         # 绘制按钮
         pg.draw.rect(screen, self.color, self.rect)
-        if self.press_flag:
-            pg.draw.rect(screen, self.shadow, self.rect)
         screen.blit(self.text, self.text_rect)
+        if self.press_flag:
+            screen.blit(self.shadow, self.rect)
 
     def set_event(self, event):
         # 监听事件
@@ -46,3 +46,11 @@ class Button:
 
     def set_shadow_color(self, color: tuple):
         self.shadow = color
+
+    @property
+    def is_agree(self):
+        if self.agree_flag:
+            self.agree_flag = False
+            return True
+        else:
+            return False
